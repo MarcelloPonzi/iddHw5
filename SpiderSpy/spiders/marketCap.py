@@ -3,10 +3,10 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
 
-class QuotesSpider(scrapy.Spider):
+class MarketCapSpider(scrapy.Spider):
     name = "marketCap_spider"
     allowed_domains = ["companiesmarketcap.com"]
-    start_urls = ['https://companiesmarketcap.com/']
+    start_urls = [f'https://companiesmarketcap.com/page/{i}' for i in range(1, 10)]
 
     def parse(self, response, **kargs):
         for company in response.xpath("//tbody/tr"):
