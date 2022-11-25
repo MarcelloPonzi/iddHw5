@@ -9,9 +9,17 @@ class MarketCapSpider(scrapy.Spider):
     start_urls = [f'https://companiesmarketcap.com/page/{i}' for i in range(1, 10)]
 
     def parse(self, response, **kargs):
-        for company in response.xpath("//tbody/tr"):
+        all_tr_companies = response.xpath("//tbody/tr")
+        for company in all_tr_companies:
+            name = company.xpath(".//div[@class='company-name']/text()").get()
+            codice = company.xpath(".//div[@class='company-code']/text()").get()
+            pricecap = company.xpath("./td[3]/text()").get()
+            price = company.xpath(".//td[4]/text()").get()
+            country = company.xpath(".//td[last()]/span/text()").get()
             yield {
-                'nome': company.css(".company-name::text").get(),
-                'pricecap': company.css("td.td-right::text").get()
-
+                'name': name,
+                'codice': codice,
+                'pricecap': pricecap,
+                'price': price,
+                'country': country
             }
