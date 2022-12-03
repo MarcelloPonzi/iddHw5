@@ -11,7 +11,7 @@ class MarketCapSpider(scrapy.Spider):
     def parse(self, response, **kargs):
         all_tr_companies = response.xpath("//tbody/tr")
         for company in all_tr_companies:
-            name = company.xpath(".//div[@class='company-name']/text()").get()
+            name = company.xpath("normalize-space(.//div[@class='company-name']/text())").get()
             codice = company.xpath(".//div[@class='company-code']/text()").get()
             pricecap = company.xpath("./td[3]/text()").get()
             price = company.xpath(".//td[4]/text()").get()

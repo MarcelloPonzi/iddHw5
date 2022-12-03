@@ -9,7 +9,7 @@ class ValueTodaySpider(scrapy.Spider):
     start_urls = [f'https://www.value.today/' \
                   f'?title=&field_company_category_primary_target_id&field_headquarters_of_company_target_id=' \
                   f'All&field_company_website_uri=&field_market_value_jan072022_value=&page={i}'
-                  for i in range(0, 10)]
+                  for i in range(0, 100)]
 
     def parse(self, response, **kargs):
         all_tr_companies = response.xpath("//div[contains(@class,'group-header')]")
