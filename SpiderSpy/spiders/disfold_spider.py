@@ -3,7 +3,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
 class DisfoldSpider(scrapy.Spider):
-    name = "disfold"
+    name = "disfold_spider"
     allowed_domains = ["disfold"]
     start_urls = [f'https://disfold.com/world/companies/?page={i}'
                   for i in range(1, 21)]

@@ -4,7 +4,7 @@ from scrapy.linkextractors import LinkExtractor
 
 
 class ValueTodaySpider(scrapy.Spider):
-    name = "valueTodaySpider"
+    name = "valueToday_spider"
     allowed_domains = ["value.today"]
     start_urls = [f'https://www.value.today/' \
                   f'?title=&field_company_category_primary_target_id&field_headquarters_of_company_target_id=' \
