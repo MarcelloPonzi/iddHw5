@@ -7,26 +7,30 @@ from scrapy.linkextractors import LinkExtractor
 class WikiSpider(scrapy.Spider):
     name = "wiki_spider"
     allowed_domains = ["wikipedia.org"]
-    start_urls = ["https://en.wikipedia.org/wiki/Lists_of_companies"]
-
-
+    start_urls = ["https://en.wikipedia.org/wiki/List_of_companies_of_the_European_Union"]
+    base_url = 'https://en.wikipedia.org'
+    custom_settings = {
+        'DEPTH_LIMIT': 1
+    }
 
     def parse(self, response, **kargs):
-        for link in response.xpath("//div/ul/li/a"):
+        for next_page in response.xpath("//div[@role='note'][1]/a/@href"):
+            yield response.follow(next_page, self.parse)
 
-            url = link.xpath(".//@href").get()
-            url2 = 'https://en.wikipedia.org' + url
+        for company in response.xpath('.//tbody'):
+            name = company.xpath(".//tr/td[1]/text()").get()
+            industry = company.xpath(".//tr/td[2]/text()").get()
+            sector = company.xpath(".//tr/td[3]/text()").get()
+            headquarters = company.xpath(".//tr/td[4]/text()").get()
+            founded = company.xpath(".//tr/td[5]/text()").get()
             yield {
-                "link": url2
+                'Name': name,
+                'Industry': industry,
+                'Sector': sector,
+                'Headquarters': headquarters,
+                'Founded': founded
             }
 
-# def parse_func(self, response):
-#     for link in response.xpath('//h3/a'):
-#         url = link.xpath('.//@href').get()
-#         final_url = self.base_url + url.replace('../..', '')
-#         yield {
-#             "link": final_url
-#         }
 
 
 
