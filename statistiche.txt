@@ -1,0 +1,3 @@
+Numero di richieste: 2965
+Risposte contenenti informazioni: 2164
+Accuratezza: 72%
