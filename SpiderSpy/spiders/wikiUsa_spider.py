@@ -20,7 +20,7 @@ class WikiSpider(scrapy.Spider):
         f = open("link trovati.txt", "w")
 
         """Prende i link alle pagine di compagnie direttamente sulla sorgente"""
-        companies_pages = response.xpath("//div[@class='mw-parser-output']/ul/li/a")
+        companies_pages = response.xpath("//div[@class='mw-parser-output']/ul/li/a/@href")
         num_pagine = 0
         for company_page in companies_pages:
             num_pagine = num_pagine + 1
@@ -29,7 +29,7 @@ class WikiSpider(scrapy.Spider):
 
 
         """Prende i link alle liste di compagnie dei singoli stati"""
-        states_links = response.xpath("//div[@role='note']/a")
+        states_links = response.xpath("//div[@role='note']/a/@href")
         link_stati = 0
         for state_link in states_links:
             link_stati = link_stati + 1
@@ -40,7 +40,7 @@ class WikiSpider(scrapy.Spider):
         f.close()
 
     def parse_li_list(self, response):
-        companies_pages = response.xpath("//div[@class='mw-parser-output']/ul/li/a")
+        companies_pages = response.xpath("//div[@class='mw-parser-output']/ul/li/a/@href | //div[@class='div-col']/ul/li/a/@href")
         for company_page in companies_pages:
             self.stats.inc_request()
             yield response.follow(url=company_page, callback=self.parse_company_page)
@@ -67,9 +67,9 @@ class WikiSpider(scrapy.Spider):
     def parse_company_page(self, response):
         info_box = response.xpath("//table[@class='infobox vcard']")
         name = info_box.xpath(".//text()").get()
-        industry = info_box.xpath(".//tbody/tr/th[text()='Industry']/following-sibling::td/text()").get()
+        industry = info_box.xpath(".//tbody/tr/th[text()='Industry']/following-sibling::td/a/text() | .//tbody/tr/th[text()='Industry']/following-sibling::td/div/ul/li/text()").get()
         headquarters = info_box.xpath(".//tbody/tr/th[text()='Headquarters']/following-sibling::td/a/text()").get()
-        founded = info_box.xpath(".//tbody/tr/th[text()='Founded']/following-sibling::td/text()").get()
+        founded = info_box.xpath("normalize-space(.//tbody/tr/th[text()='Founded']/following-sibling::td/text())").get()
 
         if type(name) is str:
             self.stats.hitted()

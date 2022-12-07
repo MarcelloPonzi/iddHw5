@@ -1,3 +1,5 @@
-Numero di richieste: 2965
-Risposte contenenti informazioni: 2164
-Accuratezza: 72%
+Cerco compagnie partendo da: https://en.wikipedia.org/wiki/List_of_companies_of_the_United_States_by_state
+
+Numero di richieste: 4336
+Risposte contenenti informazioni: 3272
+Accuratezza: 75%

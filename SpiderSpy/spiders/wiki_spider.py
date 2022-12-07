@@ -18,7 +18,6 @@ class WikiSpider(scrapy.Spider):
             yield response.follow(url=country_link, callback=self.parse_company)
 
     def parse_company(self, response):
-        hit = False
         table = response.xpath("//tbody[1]/tr")
         for row in table:
 
@@ -36,7 +35,7 @@ class WikiSpider(scrapy.Spider):
                     'Headquarters': headquarters.strip(),
                     'Founded': founded.strip()
                 }
-                hit = True
-        if bool(hit) : nhit = nhit + 1
+
+
 
 
