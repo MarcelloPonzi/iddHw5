@@ -6,7 +6,7 @@ from scrapy.linkextractors import LinkExtractor
 class MarketCapSpider(scrapy.Spider):
     name = "marketCap_spider"
     allowed_domains = ["companiesmarketcap.com"]
-    start_urls = [f'https://companiesmarketcap.com/page/{i}' for i in range(1, 11)]
+    start_urls = [f'https://companiesmarketcap.com/page/{i}' for i in range(1, 73)]
 
     def parse(self, response, **kargs):
         all_tr_companies = response.xpath("//tbody/tr")
